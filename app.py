@@ -3,8 +3,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained("YOUR_USERNAME/nimbus-coffee-assistant")
-    model = AutoModelForCausalLM.from_pretrained("YOUR_USERNAME/nimbus-coffee-assistant")
+    tokenizer = AutoTokenizer.from_pretrained("420yolomcswaggerpants/nimbus-coffee-assistant")
+    model = AutoModelForCausalLM.from_pretrained("420yolomcswaggerpants/nimbus-coffee-assistant")
     return tokenizer, model
 
 tokenizer, model = load_model()
