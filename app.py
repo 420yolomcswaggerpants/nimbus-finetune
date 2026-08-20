@@ -1,20 +1,21 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import PeftModel
 
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained("420yolomcswaggerpants/nimbus-coffee-assistant")
-    model = AutoModelForCausalLM.from_pretrained("420yolomcswaggerpants/nimbus-coffee-assistant")
+    base_model_name = "Qwen/Qwen2.5-3B"
+    adapter_name = "YOUR_USERNAME/nimbus-coffee-assistant"
+    
+    tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+    model = AutoModelForCausalLM.from_pretrained(base_model_name)
+    model = PeftModel.from_pretrained(model, adapter_name)
     return tokenizer, model
 
 tokenizer, model = load_model()
 
 st.title("☕ Nimbus Coffee Assistant")
 st.caption("A fine-tuned AI that knows everything about Nimbus Coffee Roasters.")
-
-# Initialize chat history
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
 
 # FAQ Quick-Reply Buttons
 st.markdown("**Quick Questions:**")
@@ -30,7 +31,6 @@ with col3:
 with col4:
     faq4 = st.button("🕒 Cafe hours?")
 
-# Determine what the user asked
 user_input = st.text_input("Or ask your own question:")
 
 if faq1:
@@ -55,13 +55,4 @@ if user_input:
     answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
     if "### Response:" in answer:
         answer = answer.split("### Response:")[1].strip()
-    
-    # Add to chat history
-    st.session_state.chat_history.append({"user": user_input, "bot": answer})
-
-# Display chat history
-for chat in st.session_state.chat_history:
-    with st.chat_message("user"):
-        st.write(chat["user"])
-    with st.chat_message("assistant"):
-        st.text(chat["bot"])
+    st.text(answer)
