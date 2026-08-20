@@ -59,9 +59,3 @@ The fine-tuned model accurately answers domain-specific questions about products
 - Model evaluation
 - HuggingFace model hosting
 - Deployment
-
-## Future Improvements
-- Increase dataset size
-- Try full fine-tuning
-- Add evaluation metrics
-- Compare against base model systematically
