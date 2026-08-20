@@ -1,12 +1,15 @@
 import streamlit as st
+import os
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 
+os.environ["HF_TOKEN"] = st.secrets["HF_TOKEN"]
+
 @st.cache_resource
 def load_model():
-    base_model_name = "Qwen/Qwen2.5-3B"
-    adapter_name = "YOUR_USERNAME/nimbus-coffee-assistant"
-    
+    base_model_name = "Qwen/Qwen2.5-0.5B"
+    adapter_name = "420yolomcswaggerpants/nimbus-coffee-assistant-0.5b"
+
     tokenizer = AutoTokenizer.from_pretrained(base_model_name)
     model = AutoModelForCausalLM.from_pretrained(base_model_name)
     model = PeftModel.from_pretrained(model, adapter_name)
